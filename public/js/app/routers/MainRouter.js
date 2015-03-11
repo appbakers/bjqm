@@ -21,9 +21,11 @@ define([
       });
     },
 
+    //TODO: http://www.geekdave.com/2012/04/05/module-specific-subroutes-in-backbone/
     routes: {
       'generics': 'getGenerics',
       'generics/:id': 'getGeneric',
+      'backbonesync': 'getTestBackboneSync',
       'conditions': 'getConditions',
       'conditions/:id': 'getCondition',
       '': 'main'
@@ -33,6 +35,13 @@ define([
       this.navigate('generics', {
         trigger: true
       });
+    },
+
+    getTestBackboneSync: function() {
+      $.mobile.loading('show');
+
+      var model = new
+
     },
 
     getCondition: function(id) {
