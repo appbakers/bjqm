@@ -1,0 +1,29 @@
+<p>
+model: <%=id %>
+</p>
+
+<% _.each(conditions,function(condition){
+  var classid = id;
+   %>
+  <% if( condition.uitagName === 'select' ) {%>
+<div class="<%= condition.uiclass %>">
+  <label for="<%= condition.uiname %>"><%= condition.uiname %></label>
+  <select name="<%= condition.uiname %>"
+    id="<%=classid%>-<%=condition.uiname%>-<%=condition.id%>"
+    data-native-menu="true" data-mini="true"
+    data-<%=condition.uiname%>="test">
+    <% _.each(condition.uioptions,function(uioptions){
+       %>
+      <option value="<%= _.escape(uioptions.uivalue)%>">
+        <%= _.escape(uioptions.uiname)%></option>
+    <% }); %>
+  </select>
+</div>
+  <% } else { %>
+    <div>
+      <p>No Conditions</p>
+    </div>
+
+  <% } %>
+
+<% }); %>

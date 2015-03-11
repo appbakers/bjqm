@@ -1,0 +1,12 @@
+{
+  "framework": "mocha",
+  "src_files": [
+    "public/libs/*.js",
+    "public/app/*.js",
+    "test/bower_components/mocha/mocha.js",
+    "test/bower_components/chai/chai.js",
+    "test/config.js",
+    "test/spec/*.js"
+
+  ]
+}
