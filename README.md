@@ -4,11 +4,6 @@
 
 A mobile app boilerplate built with Backbone.js, jQuery Mobile and Require.js with some example code inside.
 
-**Getting it**
-
-```
-git clone --depth=1 https://github.com/ricca509/backbone-requirejs-jquerymobile.git
-```
 
 **Using it**
 
@@ -31,4 +26,3 @@ $ node server.js
 * [Grunt](http://gruntjs.com/)
 * [JSHint](http://www.jshint.com/)
 
-If you have any questions or feedback, feel free to contact me using [@CoppolaRiccardo](https://twitter.com/CoppolaRiccardo) on Twitter.
