@@ -83,26 +83,40 @@ app.get('/generics', function(req, res) {
 
 
 app.get('/download',function(req,res){
-
   var file = __dirname+'/README.md';
-
   var filename = path.basename(file);
   var mimetype = mime.lookup(file);
   res.setHeader('Content-disposition', 'attachment; filename='+filename);
   res.setHeader('Content-Type', mimetype);
   res.setHeader('Content-Length', file.length);
   res.cookie('fileDownload', true, {path:'/'});
-
   res.download(file,filename);
-
+});
+app.get('/download/5000',function(req,res){
+  var file = __dirname+'/README.md';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+  setTimeout(function() {
+  res.setHeader('Content-disposition', 'attachment; filename='+filename);
+  res.setHeader('Content-Type', mimetype);
+  res.setHeader('Content-Length', file.length);
+  res.cookie('fileDownload', true, {path:'/'});
+  res.download(file,filename);
+}, 5000);
+});
+app.get('/download/1000',function(req,res){
+  var file = __dirname+'/README.md';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+  setTimeout(function() {
+  res.setHeader('Content-disposition', 'attachment; filename='+filename);
+  res.setHeader('Content-Type', mimetype);
+  res.setHeader('Content-Length', file.length);
+  res.cookie('fileDownload', true, {path:'/'});
+  res.download(file,filename);
+}, 1000);
 });
 
-// app.get('/testsync'),function(req,res) {
-//   // var filename = '/test/pageresource/testsync.html';
-//   // res.setHeader('Content-type','text/html');
-//   // res.sendFile( path.join(__dirname+filename) );
-//   res.sendFile( 'testsync.html' );
-// };
 
 app.get('/download/zip',function(req,res){
   var file = __dirname+'/fp_11.2.202.440_archive.zip';
@@ -117,7 +131,7 @@ app.get('/download/zip',function(req,res){
   res.cookie('fileDownload', true, {path:'/'});
   res.download(file, 'test.zip');
 
-}, 15000);
+}, 5000);
 
 
 
