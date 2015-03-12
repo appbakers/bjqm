@@ -1,6 +1,24 @@
 var express = require('express');
+var path = require('path');
+var mime = require('mime');
+var async = require('async');
 
 var app = express();
+
+
+app.use(express.cookieParser());
+// app.use(function(req,res,next){
+//   var cookie = req.cookies.cookieName;
+//   if(cookie === undefined) {
+//     //no: set a new cookie
+//     res.cookie('fileDownload', true, {maxAge:900000});
+//     console.log('cookie::fileDownload have created successfully');
+//   } else {
+//     //yes: cookie was already present
+//     console.log('cookie::', cookie);
+//   }
+//   next();
+// });
 
 app.use(express.static(__dirname + '/public'));
 
@@ -60,6 +78,56 @@ app.get('/generics', function(req, res) {
       date: "June 1, 2013 at 10:00 AM"
     }]);
   }, 1000);
+});
+
+
+app.get('/download',function(req,res){
+
+  var file = __dirname+'/README.md';
+
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+  res.setHeader('Content-disposition', 'attachment; filename='+filename);
+  res.setHeader('Content-Type', mimetype);
+  res.setHeader('Content-Length', file.length);
+  res.cookie('fileDownload', true, {path:'/'});
+
+  res.download(file,filename);
+
+});
+
+app.get('/download/zip',function(req,res){
+  res.clearCookie('fileDownload',{path:'/'});
+
+  var file = __dirname+'/fp_11.2.202.440_archive.zip';
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename='+filename);
+  res.setHeader('Content-Type', mimetype);
+//  res.setHeader('Cache-Control','max-age=60, must-revalidate');
+  res.setHeader('Content-Length', file.length);
+
+  res.cookie('fileDownload', true, {path:'/'});
+ res.download(file, 'test.zip');
+
+  // async.parallel([
+  //   function(callback) {
+  // res.download(file,filename,function(err){
+  //   if(err) {
+  //     console.log('err');
+  //     return;
+  //   } else {
+  //     console.log('ok');
+  //   }
+  //   callback();
+  // });
+  //   }
+  // ], function(err){
+  //   if( err ) return callback(err);
+  // });
+
+
 });
 
 app.listen(3000, function() {

@@ -25,7 +25,6 @@ define([
     routes: {
       'generics': 'getGenerics',
       'generics/:id': 'getGeneric',
-      'backbonesync': 'getTestBackboneSync',
       'conditions': 'getConditions',
       'conditions/:id': 'getCondition',
       '': 'main'
@@ -35,13 +34,6 @@ define([
       this.navigate('generics', {
         trigger: true
       });
-    },
-
-    getTestBackboneSync: function() {
-      $.mobile.loading('show');
-
-      var model = new
-
     },
 
     getCondition: function(id) {
