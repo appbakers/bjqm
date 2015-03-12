@@ -7,18 +7,19 @@ var app = express();
 
 
 app.use(express.cookieParser());
-// app.use(function(req,res,next){
-//   var cookie = req.cookies.cookieName;
-//   if(cookie === undefined) {
-//     //no: set a new cookie
-//     res.cookie('fileDownload', true, {maxAge:900000});
-//     console.log('cookie::fileDownload have created successfully');
-//   } else {
-//     //yes: cookie was already present
-//     console.log('cookie::', cookie);
-//   }
-//   next();
-// });
+app.use(function(req,res,next){
+  var cookie = req.cookies.cookieName;
+  if(cookie === undefined) {
+    //no: set a new cookie
+//    res.cookie('fileDownload', true, {maxAge:900000});
+    console.log('cookie::fileDownload have created successfully');
+  } else {
+    //yes: cookie was already present
+    res.clearCookie('fileDownload',{path:'/'});
+    console.log('cookie::', cookie);
+  }
+  next();
+});
 
 app.use(express.static(__dirname + '/public'));
 
@@ -96,36 +97,28 @@ app.get('/download',function(req,res){
 
 });
 
-app.get('/download/zip',function(req,res){
-  res.clearCookie('fileDownload',{path:'/'});
+// app.get('/testsync'),function(req,res) {
+//   // var filename = '/test/pageresource/testsync.html';
+//   // res.setHeader('Content-type','text/html');
+//   // res.sendFile( path.join(__dirname+filename) );
+//   res.sendFile( 'testsync.html' );
+// };
 
+app.get('/download/zip',function(req,res){
   var file = __dirname+'/fp_11.2.202.440_archive.zip';
   var filename = path.basename(file);
   var mimetype = mime.lookup(file);
 
+  setTimeout(function() {
+
   res.setHeader('Content-disposition', 'attachment; filename='+filename);
   res.setHeader('Content-Type', mimetype);
-//  res.setHeader('Cache-Control','max-age=60, must-revalidate');
   res.setHeader('Content-Length', file.length);
-
   res.cookie('fileDownload', true, {path:'/'});
- res.download(file, 'test.zip');
+  res.download(file, 'test.zip');
 
-  // async.parallel([
-  //   function(callback) {
-  // res.download(file,filename,function(err){
-  //   if(err) {
-  //     console.log('err');
-  //     return;
-  //   } else {
-  //     console.log('ok');
-  //   }
-  //   callback();
-  // });
-  //   }
-  // ], function(err){
-  //   if( err ) return callback(err);
-  // });
+}, 15000);
+
 
 
 });

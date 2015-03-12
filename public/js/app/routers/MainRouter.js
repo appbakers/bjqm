@@ -7,10 +7,11 @@ define([
   'app/views/FooterView',
   'app/views/JqmPageView',
   'app/models/condition',
-  'app/models/generic'
+  'app/models/generic',
+  'app/models/testsync'
 ], function(Backbone, ConditionsView, GenericsView, GenericDetailsView,
   HeaderView, FooterView, jqMPageView,
-  Condition, Generic) {
+  Condition, Generic, Testsync ) {
   var Router = Backbone.Router.extend({
     initialize: function() {
 
@@ -27,6 +28,7 @@ define([
       'generics/:id': 'getGeneric',
       'conditions': 'getConditions',
       'conditions/:id': 'getCondition',
+      'testsync': 'getTestsync',
       '': 'main'
     },
 
@@ -34,6 +36,37 @@ define([
       this.navigate('generics', {
         trigger: true
       });
+    },
+
+    getTestsync: function() {
+      $.mobile.loading('show');
+
+      var tsCollection = new Testsync.collection();
+      var genericPage = new jqMPageView();
+      genericPage.setHeaderView(new HeaderView());
+      genericPage.setContentView(new GenericsView({
+        collection: tsCollection
+      }));
+      genericPage.setFooterView();
+
+      tsCollection.fetch({
+        success: function(collection, response, options) {
+          //    cnCollection = collection;
+          console.log("Testsync Collection fetch success");
+          console.log(response);
+        },
+        error: function(collection, response) {
+          console.log(response);
+          throw new Error("Testsync fetch error");
+        }
+      });
+
+      tsCollection.fetch({
+        success: function(collection, response, options) {
+          genericPage.navigate();
+        }
+      });
+
     },
 
     getCondition: function(id) {
